@@ -2,10 +2,12 @@
 # @Time    : 2020/9/27 18:40
 # @Author  : Enmo Ren
 # @FileName: main.py
-# @Software: PyCharm
+# @Software: PyCharms
 
 
 import json
+
+from json2xml import json2xml
 
 from error_handler import error_exit
 from pdf_format import PDF
@@ -51,6 +53,24 @@ def testJSONtoTXT(filename: str, json_content: str):
     JSONtoTXT(filename, json_data)
 
 
+def JSONtoXML(filename: str, json_content: str):
+    try:
+        data = json.loads(json_content)
+    except Exception as e:
+        error_exit("Invalid JSON data: {}".format(e.message))
+    data = json2xml.Json2xml(data).to_xml()
+    try:
+        with open(filename, 'w') as outfile:
+            json.dump(data, outfile)
+    except Exception as e:
+        error_exit("Error while generating TXT file: {}".format(e.message))
+
+
+def testJSONtoXML(filename: str, json_content: str):
+    json_data = json.dumps(json_content)
+    JSONtoXML(filename, json_data)
+
+
 def main():
     json_test = {
         'pdf_filename': 'placeholder',
@@ -61,7 +81,8 @@ def main():
         'lines': 'list_placeholder'
     }
     # testJSONtoPDF('test.pdf', json_test)
-    testJSONtoTXT('test.txt', json_test)
+    # testJSONtoTXT('test.txt', json_test)
+    # testJSONtoXML('test.xml', json_test)
 
 
 if __name__ == '__main__':
