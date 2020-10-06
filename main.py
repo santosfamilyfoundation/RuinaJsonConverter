@@ -6,12 +6,13 @@
 
 
 import json
+import pandas
 
 from json2xml import json2xml
 
 from error_handler import error_exit
 from pdf_format import PDF
-
+from io import StringIO
 
 def JSONtoPDF(filename: str, json_data: dict):
     # Get the data values from the JSON string json_data.
@@ -70,6 +71,13 @@ def testJSONtoXML(filename: str, json_content: str):
     json_data = json.dumps(json_content)
     JSONtoXML(filename, json_data)
 
+def JSONtoCSV(filename: str, json_content: str):
+    data = pandas.read_json(StringIO(json_content), typ='series')
+    return data.to_csv(filename)
+
+def testJSONtoCSV(filename: str, json_content: str):
+    json_data = json.dumps(json_content)
+    JSONtoCSV(filename, json_data)
 
 def main():
     json_test = {
@@ -83,6 +91,7 @@ def main():
     # testJSONtoPDF('test.pdf', json_test)
     # testJSONtoTXT('test.txt', json_test)
     # testJSONtoXML('test.xml', json_test)
+    testJSONtoCSV('test.csv', json_test)
 
 
 if __name__ == '__main__':
