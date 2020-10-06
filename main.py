@@ -9,6 +9,7 @@ import json
 import pandas
 
 from json2xml import json2xml
+import geojson
 
 from error_handler import error_exit
 from pdf_format import PDF
@@ -96,3 +97,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # y_point = geojson.Point((43.24, -1.532))
